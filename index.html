@@ -1,0 +1,75 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <meta name="description" content="Curated neuroscience conference deadlines with official-source verification.">
+  <title>Neuro Deadlines</title>
+  <link rel="stylesheet" href="assets/styles.css">
+</head>
+<body>
+  <header class="site-header">
+    <div class="shell">
+      <div>
+        <p class="eyebrow">CURATED CONFERENCE RADAR</p>
+        <h1>Neuro Deadlines</h1>
+        <p class="lede">Computational neuroscience, neuroimaging, cognitive neuroscience, EEG/MEG, BCI and neurotechnology.</p>
+      </div>
+      <div class="header-meta">
+        <span id="local-timezone"></span>
+        <a href="data/conferences.json">data</a>
+      </div>
+    </div>
+  </header>
+
+  <main class="shell">
+    <section class="controls" aria-label="Conference filters">
+      <label class="search-wrap">
+        <span>Search</span>
+        <input id="search" type="search" placeholder="COSYNE, connectivity, BCI…" autocomplete="off">
+      </label>
+
+      <div>
+        <span class="control-label">Area</span>
+        <div id="area-filters" class="chips" role="group" aria-label="Research area filters"></div>
+      </div>
+
+      <div class="control-row">
+        <label class="checkbox"><input id="show-closed" type="checkbox"> Show closed deadlines</label>
+        <label class="checkbox"><input id="show-tba" type="checkbox" checked> Show TBA</label>
+      </div>
+    </section>
+
+    <section class="summary" aria-live="polite">
+      <span id="result-count"></span>
+      <span id="data-updated"></span>
+    </section>
+
+    <section id="conference-list" class="conference-list" aria-live="polite"></section>
+    <p id="empty-state" class="empty-state" hidden>No conferences match the current filters.</p>
+  </main>
+
+  <footer class="site-footer shell">
+    <p>Deadlines are curated from official conference sources. When an official source gives only a date, this site does not invent a deadline time.</p>
+  </footer>
+
+  <template id="conference-template">
+    <article class="conference-card">
+      <div class="card-main">
+        <div class="title-row">
+          <div>
+            <h2><a class="conference-link" target="_blank" rel="noreferrer"></a></h2>
+            <p class="conference-full-name"></p>
+          </div>
+          <span class="status-badge"></span>
+        </div>
+        <p class="event-meta"></p>
+        <div class="tag-row"></div>
+      </div>
+      <div class="deadline-panel"></div>
+    </article>
+  </template>
+
+  <script src="assets/app.js" defer></script>
+</body>
+</html>
