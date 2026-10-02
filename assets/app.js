@@ -15,20 +15,18 @@ const AREA_LABELS = {
 const state = {
   data: null,
   activeAreas: new Set(),
-  query: "",
   showClosed: false,
   showTba: true
 };
 
 const els = {
-  search: document.querySelector("#search"),
   areaFilters: document.querySelector("#area-filters"),
   showClosed: document.querySelector("#show-closed"),
   showTba: document.querySelector("#show-tba"),
   list: document.querySelector("#conference-list"),
   resultCount: document.querySelector("#result-count"),
-  dataUpdated: document.querySelector("#data-updated"),
   localTimezone: document.querySelector("#local-timezone"),
+  lastUpdate: document.querySelector("#last-update"),
   empty: document.querySelector("#empty-state"),
   template: document.querySelector("#conference-template")
 };
@@ -46,18 +44,25 @@ function parseDateOnly(value) {
 }
 
 function formatDate(value) {
-  const date = parseDateOnly(value);
-  return new Intl.DateTimeFormat(undefined, {
+  return new Intl.DateTimeFormat("en", {
+    year: "numeric",
+    month: "long",
+    day: "numeric"
+  }).format(parseDateOnly(value));
+}
+
+function formatCompactDate(value) {
+  return new Intl.DateTimeFormat("en", {
     year: "numeric",
     month: "short",
     day: "numeric"
-  }).format(date);
+  }).format(parseDateOnly(value));
 }
 
 function formatEventRange(event) {
-  const start = formatDate(event.start);
-  const end = event.end && event.end !== event.start ? `–${formatDate(event.end)}` : "";
-  return `${start}${end} · ${event.location}`;
+  const start = formatCompactDate(event.start);
+  const end = event.end && event.end !== event.start ? ` – ${formatCompactDate(event.end)}` : "";
+  return `${start}${end} // ${event.location}${event.note ? ` // ${event.note}` : ""}`;
 }
 
 function deadlineStatus(deadline) {
@@ -79,7 +84,7 @@ function dateOnlyCountdown(deadlineDate) {
   const today = parseDateOnly(localDateString());
   const target = parseDateOnly(deadlineDate);
   const days = Math.round((target - today) / 86400000);
-  if (days < 0) return "Closed";
+  if (days < 0) return "Past deadline";
   if (days === 0) return "Due today";
   if (days === 1) return "1 day left";
   return `${days} days left`;
@@ -87,7 +92,7 @@ function dateOnlyCountdown(deadlineDate) {
 
 function exactCountdown(isoDatetime) {
   const ms = new Date(isoDatetime).getTime() - Date.now();
-  if (ms <= 0) return "Closed";
+  if (ms <= 0) return "Past deadline";
   const totalSeconds = Math.floor(ms / 1000);
   const days = Math.floor(totalSeconds / 86400);
   const hours = Math.floor((totalSeconds % 86400) / 3600);
@@ -110,19 +115,18 @@ function setupAreaFilters(conferences) {
     .sort((a, b) => (AREA_LABELS[a] || a).localeCompare(AREA_LABELS[b] || b));
 
   for (const area of presentAreas) {
-    const button = document.createElement("button");
-    button.type = "button";
-    button.className = "chip";
-    button.textContent = AREA_LABELS[area] || area;
-    button.dataset.area = area;
-    button.setAttribute("aria-pressed", "false");
-    button.addEventListener("click", () => {
-      if (state.activeAreas.has(area)) state.activeAreas.delete(area);
-      else state.activeAreas.add(area);
-      button.setAttribute("aria-pressed", String(state.activeAreas.has(area)));
+    const label = document.createElement("label");
+    const checkbox = document.createElement("input");
+    checkbox.type = "checkbox";
+    checkbox.value = area;
+    checkbox.addEventListener("change", () => {
+      if (checkbox.checked) state.activeAreas.add(area);
+      else state.activeAreas.delete(area);
       render();
     });
-    els.areaFilters.appendChild(button);
+
+    label.append(checkbox, document.createTextNode(` ${AREA_LABELS[area] || area}`));
+    els.areaFilters.appendChild(label);
   }
 }
 
@@ -130,54 +134,42 @@ function conferenceMatches(conference) {
   const status = conferenceStatus(conference);
   if (!state.showClosed && status === "closed") return false;
   if (!state.showTba && status === "tba") return false;
-  if (state.activeAreas.size && !conference.areas.some(a => state.activeAreas.has(a))) return false;
-
-  if (state.query) {
-    const haystack = [
-      conference.name,
-      conference.full_name,
-      conference.event.location,
-      ...conference.areas.map(a => AREA_LABELS[a] || a),
-      ...conference.deadlines.map(d => `${d.label} ${d.type} ${d.note || ""}`)
-    ].join(" ").toLowerCase();
-    if (!haystack.includes(state.query)) return false;
-  }
-
+  if (state.activeAreas.size && !conference.areas.some(area => state.activeAreas.has(area))) return false;
   return true;
 }
 
-function appendDeadline(panel, deadline) {
-  if (!state.showClosed && deadlineStatus(deadline) === "closed") return;
+function appendDeadline(column, deadline) {
+  const status = deadlineStatus(deadline);
+  if (!state.showClosed && status === "closed") return;
 
   const item = document.createElement("div");
   item.className = "deadline-item";
+  if (status === "closed") item.classList.add("past");
 
-  const labelRow = document.createElement("div");
-  labelRow.className = "deadline-label";
-  const label = document.createElement("span");
-  label.textContent = deadline.label;
-  const source = document.createElement("a");
-  source.href = deadline.source_url;
-  source.target = "_blank";
-  source.rel = "noreferrer";
-  source.textContent = "official source";
-  labelRow.append(label, source);
+  const label = document.createElement("div");
+  label.className = "deadline-label";
+  label.textContent = `${deadline.label}:`;
 
-  const countdown = document.createElement("div");
-  countdown.className = "countdown";
-  countdown.dataset.deadline = deadline.date;
-  if (deadline.datetime) countdown.dataset.datetime = deadline.datetime;
-  countdown.textContent = deadline.datetime
+  const timer = document.createElement("div");
+  timer.className = "timer";
+  if (deadline.datetime) timer.dataset.datetime = deadline.datetime;
+  timer.textContent = deadline.datetime
     ? exactCountdown(deadline.datetime)
     : dateOnlyCountdown(deadline.date);
 
   const date = document.createElement("div");
   date.className = "deadline-date";
-  date.textContent = deadline.datetime
-    ? `${formatDate(deadline.date)} · exact time published`
-    : `${formatDate(deadline.date)} · time not specified by source`;
+  const source = document.createElement("a");
+  source.href = deadline.source_url;
+  source.target = "_blank";
+  source.rel = "noreferrer";
+  source.textContent = "source";
+  date.append(
+    document.createTextNode(`${formatCompactDate(deadline.date)}${deadline.datetime ? "" : " · time not specified"} · `),
+    source
+  );
 
-  item.append(labelRow, countdown, date);
+  item.append(label, timer, date);
 
   if (deadline.note) {
     const note = document.createElement("div");
@@ -186,62 +178,43 @@ function appendDeadline(panel, deadline) {
     item.appendChild(note);
   }
 
-  const verified = document.createElement("div");
-  verified.className = "verified";
-  verified.textContent = `Verified ${deadline.verified_on}`;
-  item.appendChild(verified);
-
-  panel.appendChild(item);
+  column.appendChild(item);
 }
 
 function buildCard(conference) {
   const fragment = els.template.content.cloneNode(true);
-  const card = fragment.querySelector(".conference-card");
+  const row = fragment.querySelector(".conference-row");
   const link = fragment.querySelector(".conference-link");
   const fullName = fragment.querySelector(".conference-full-name");
   const eventMeta = fragment.querySelector(".event-meta");
-  const badge = fragment.querySelector(".status-badge");
-  const tags = fragment.querySelector(".tag-row");
-  const panel = fragment.querySelector(".deadline-panel");
+  const column = fragment.querySelector(".deadline-column");
 
   link.textContent = `${conference.name} ${conference.year}`;
   link.href = conference.website;
   fullName.textContent = conference.full_name;
   eventMeta.textContent = formatEventRange(conference.event);
-  if (conference.event.note) eventMeta.textContent += ` · ${conference.event.note}`;
-
-  const status = conferenceStatus(conference);
-  badge.textContent = status.toUpperCase();
-  badge.classList.add(`status-${status}`);
-
-  for (const area of conference.areas) {
-    const tag = document.createElement("span");
-    tag.className = "tag";
-    tag.textContent = AREA_LABELS[area] || area;
-    tags.appendChild(tag);
-  }
 
   if (conference.deadlines.length) {
-    for (const deadline of conference.deadlines) appendDeadline(panel, deadline);
-    if (!panel.children.length) {
-      const copy = document.createElement("p");
+    conference.deadlines.forEach(deadline => appendDeadline(column, deadline));
+    if (!column.children.length) {
+      const copy = document.createElement("div");
       copy.className = "tba-copy";
-      copy.textContent = "No active deadlines. Enable ‘Show closed deadlines’ to view past dates.";
-      panel.appendChild(copy);
+      copy.textContent = "No active deadlines. Select ‘Past deadlines’ to show earlier dates.";
+      column.appendChild(copy);
     }
   } else {
-    const copy = document.createElement("p");
+    const timer = document.createElement("div");
+    timer.className = "timer";
+    timer.textContent = "TBA";
+
+    const copy = document.createElement("div");
     copy.className = "tba-copy";
     copy.textContent = conference.tba_note || "Submission dates have not been announced yet.";
-    panel.appendChild(copy);
 
-    const verified = document.createElement("div");
-    verified.className = "verified";
-    verified.textContent = `Verified ${conference.verified_on}`;
-    panel.appendChild(verified);
+    column.append(timer, copy);
   }
 
-  card.dataset.id = conference.id;
+  if (conferenceStatus(conference) === "closed") row.classList.add("past");
   return fragment;
 }
 
@@ -249,12 +222,12 @@ function render() {
   const filtered = state.data.conferences
     .filter(conferenceMatches)
     .sort((a, b) => {
-      const aStatus = conferenceStatus(a);
-      const bStatus = conferenceStatus(b);
       const rank = { open: 0, upcoming: 1, tba: 2, closed: 3 };
-      return rank[aStatus] - rank[bStatus]
-        || nextDeadlineDate(a).localeCompare(nextDeadlineDate(b))
-        || a.event.start.localeCompare(b.event.start);
+      const statusDiff = rank[conferenceStatus(a)] - rank[conferenceStatus(b)];
+      if (statusDiff) return statusDiff;
+      const deadlineDiff = nextDeadlineDate(a).localeCompare(nextDeadlineDate(b));
+      if (deadlineDiff) return deadlineDiff;
+      return a.event.start.localeCompare(b.event.start);
     });
 
   els.list.replaceChildren(...filtered.map(buildCard));
@@ -269,7 +242,7 @@ function refreshExactCountdowns() {
 }
 
 async function init() {
-  els.localTimezone.textContent = Intl.DateTimeFormat().resolvedOptions().timeZone || "Local time";
+  els.localTimezone.textContent = `Times shown in ${Intl.DateTimeFormat().resolvedOptions().timeZone || "local time"}`;
 
   try {
     const response = await fetch("data/conferences.json", { cache: "no-store" });
@@ -280,17 +253,14 @@ async function init() {
     return;
   }
 
-  els.dataUpdated.textContent = `Dataset updated ${state.data.updated_on}`;
+  els.lastUpdate.textContent = formatDate(state.data.updated_on);
   setupAreaFilters(state.data.conferences);
 
-  els.search.addEventListener("input", event => {
-    state.query = event.target.value.trim().toLowerCase();
-    render();
-  });
   els.showClosed.addEventListener("change", event => {
     state.showClosed = event.target.checked;
     render();
   });
+
   els.showTba.addEventListener("change", event => {
     state.showTba = event.target.checked;
     render();
