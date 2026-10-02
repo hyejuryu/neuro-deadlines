@@ -1,0 +1,382 @@
+{
+  "schema_version": 1,
+  "updated_on": "2026-10-02",
+  "conferences": [
+    {
+      "id": "cosyne-2027",
+      "name": "COSYNE",
+      "full_name": "Computational and Systems Neuroscience",
+      "year": 2027,
+      "website": "https://www.cosyne.org/",
+      "venue_type": "conference",
+      "areas": [
+        "computational",
+        "systems"
+      ],
+      "event": {
+        "start": "2027-03-11",
+        "end": "2027-03-16",
+        "location": "Montreal, Canada",
+        "note": "Main meeting Mar 11–14; workshops Mar 15–16."
+      },
+      "deadlines": [
+        {
+          "type": "abstract",
+          "label": "Abstract submission",
+          "opens_on": "2026-09-11",
+          "date": "2026-10-18",
+          "source_url": "https://www.cosyne.org/abstracts-submission",
+          "verified_on": "2026-10-02"
+        },
+        {
+          "type": "travel_grant",
+          "label": "Undergraduate travel grant",
+          "date": "2026-10-30",
+          "source_url": "https://www.cosyne.org/",
+          "verified_on": "2026-10-02"
+        },
+        {
+          "type": "workshop",
+          "label": "Workshop proposal",
+          "date": "2026-11-01",
+          "source_url": "https://www.cosyne.org/workshops-call",
+          "verified_on": "2026-10-02"
+        }
+      ]
+    },
+    {
+      "id": "cns-cognitive-2027",
+      "name": "CNS",
+      "full_name": "Cognitive Neuroscience Society Annual Meeting",
+      "year": 2027,
+      "website": "https://www.cogneurosociety.org/",
+      "venue_type": "conference",
+      "areas": [
+        "cognitive",
+        "neuroimaging",
+        "eeg_meg"
+      ],
+      "event": {
+        "start": "2027-03-20",
+        "end": "2027-03-23",
+        "location": "Boston, MA, USA"
+      },
+      "deadlines": [
+        {
+          "type": "poster",
+          "label": "Poster / Sketchpad submission",
+          "opens_on": "2026-09-01",
+          "date": "2026-11-03",
+          "source_url": "https://www.cogneurosociety.org/dates-and-deadlines/",
+          "verified_on": "2026-10-02",
+          "note": "Sketchpad accepts research not yet completed."
+        },
+        {
+          "type": "travel_grant",
+          "label": "Travel award application",
+          "opens_on": "2026-10-05",
+          "date": "2026-11-03",
+          "source_url": "https://www.cogneurosociety.org/dates-and-deadlines/",
+          "verified_on": "2026-10-02"
+        },
+        {
+          "type": "poster",
+          "label": "Late-breaking poster",
+          "opens_on": "2026-12-08",
+          "date": "2027-01-19",
+          "source_url": "https://www.cogneurosociety.org/dates-and-deadlines/",
+          "verified_on": "2026-10-02"
+        }
+      ]
+    },
+    {
+      "id": "ohbm-2027",
+      "name": "OHBM",
+      "full_name": "Organization for Human Brain Mapping Annual Meeting",
+      "year": 2027,
+      "website": "https://humanbrainmapping.org/ohbm-2027/",
+      "venue_type": "conference",
+      "areas": [
+        "neuroimaging",
+        "computational",
+        "cognitive"
+      ],
+      "event": {
+        "start": "2027-06-26",
+        "end": "2027-06-30",
+        "location": "Toronto, Canada"
+      },
+      "deadlines": [
+        {
+          "type": "abstract",
+          "label": "Content / poster abstract submission",
+          "opens_on": "2026-11-02",
+          "date": "2026-12-14",
+          "source_url": "https://humanbrainmapping.org/ohbm-annual-meeting-faq/",
+          "verified_on": "2026-10-02"
+        }
+      ]
+    },
+    {
+      "id": "bci-meeting-2027",
+      "name": "BCI Meeting",
+      "full_name": "12th International BCI Meeting",
+      "year": 2027,
+      "website": "https://bcisociety.org/bci-meeting/",
+      "venue_type": "conference",
+      "areas": [
+        "bci",
+        "eeg_meg",
+        "neurotech"
+      ],
+      "event": {
+        "start": "2027-06-07",
+        "end": "2027-06-10",
+        "location": "Šibenik, Croatia"
+      },
+      "deadlines": [
+        {
+          "type": "workshop",
+          "label": "Workshop proposal",
+          "opens_on": "2026-09-14",
+          "date": "2026-10-30",
+          "source_url": "https://bcisociety.org/bci-meeting/",
+          "verified_on": "2026-10-02"
+        },
+        {
+          "type": "abstract",
+          "label": "Poster / oral abstract",
+          "opens_on": "2026-11-09",
+          "date": "2027-01-15",
+          "source_url": "https://bcisociety.org/bci-meeting/",
+          "verified_on": "2026-10-02"
+        },
+        {
+          "type": "travel_grant",
+          "label": "Trainee Travel Award",
+          "opens_on": "2026-11-09",
+          "date": "2027-01-15",
+          "source_url": "https://bcisociety.org/bci-meeting/",
+          "verified_on": "2026-10-02"
+        }
+      ]
+    },
+    {
+      "id": "nice-2027",
+      "name": "NICE",
+      "full_name": "Neuro-Inspired Computational Elements Conference",
+      "year": 2027,
+      "website": "https://niceworkshop.org/nice-2027/",
+      "venue_type": "conference",
+      "areas": [
+        "neuroai",
+        "computational",
+        "neurotech",
+        "bci"
+      ],
+      "event": {
+        "start": "2027-04-06",
+        "end": "2027-04-09",
+        "location": "Brighton, United Kingdom",
+        "note": "Main conference Apr 6–8; tutorials Apr 9."
+      },
+      "deadlines": [
+        {
+          "type": "paper",
+          "label": "Regular paper submission",
+          "date": "2026-11-11",
+          "source_url": "https://niceworkshop.org/nice-2027/",
+          "verified_on": "2026-10-02"
+        },
+        {
+          "type": "late_breaking",
+          "label": "Late-breaking news submission",
+          "date": "2027-02-01",
+          "source_url": "https://niceworkshop.org/nice-2027/",
+          "verified_on": "2026-10-02"
+        }
+      ]
+    },
+    {
+      "id": "ccn-2027",
+      "name": "CCN",
+      "full_name": "Cognitive Computational Neuroscience",
+      "year": 2027,
+      "website": "https://2027.ccneuro.org/",
+      "venue_type": "conference",
+      "areas": [
+        "computational",
+        "cognitive",
+        "neuroai"
+      ],
+      "event": {
+        "start": "2027-07-26",
+        "end": "2027-07-29",
+        "location": "Edinburgh, United Kingdom"
+      },
+      "deadlines": [],
+      "tba_note": "2027 submission deadlines have not been posted on the official conference page yet.",
+      "verified_on": "2026-10-02"
+    },
+    {
+      "id": "cns-ocns-2027",
+      "name": "CNS*",
+      "full_name": "Annual Computational Neuroscience Meeting",
+      "year": 2027,
+      "website": "https://www.cnsorg.org/",
+      "venue_type": "conference",
+      "areas": [
+        "computational",
+        "systems"
+      ],
+      "event": {
+        "start": "2027-07-10",
+        "end": "2027-07-14",
+        "location": "Gran Canaria, Spain"
+      },
+      "deadlines": [],
+      "tba_note": "OCNS has announced the meeting dates and location; the 2027 abstract window is not yet posted.",
+      "verified_on": "2026-10-02"
+    },
+    {
+      "id": "sfn-2027",
+      "name": "Neuroscience 2027",
+      "full_name": "Society for Neuroscience Annual Meeting",
+      "year": 2027,
+      "website": "https://www.sfn.org/meetings/past-and-future-sfn-meetings",
+      "venue_type": "conference",
+      "areas": [
+        "general",
+        "systems",
+        "cognitive",
+        "neuroimaging",
+        "eeg_meg"
+      ],
+      "event": {
+        "start": "2027-10-23",
+        "end": "2027-10-27",
+        "location": "Chicago, IL, USA"
+      },
+      "deadlines": [],
+      "tba_note": "SfN has published the 2027 meeting dates, but not the 2027 abstract deadlines yet.",
+      "verified_on": "2026-10-02"
+    },
+    {
+      "id": "embc-2027",
+      "name": "EMBC",
+      "full_name": "49th Annual International Conference of the IEEE Engineering in Medicine and Biology Society",
+      "year": 2027,
+      "website": "https://embc.embs.org/2027/",
+      "venue_type": "conference",
+      "areas": [
+        "neurotech",
+        "bci",
+        "eeg_meg"
+      ],
+      "event": {
+        "start": "2027-07-11",
+        "end": "2027-07-15",
+        "location": "Singapore"
+      },
+      "deadlines": [
+        {
+          "type": "workshop",
+          "label": "Workshop / mini-symposium proposal",
+          "date": "2027-01-17",
+          "source_url": "https://embc.embs.org/2027/important-dates/",
+          "verified_on": "2026-10-02"
+        },
+        {
+          "type": "paper",
+          "label": "Full contributed paper",
+          "date": "2027-01-17",
+          "source_url": "https://embc.embs.org/2027/important-dates/",
+          "verified_on": "2026-10-02"
+        },
+        {
+          "type": "poster",
+          "label": "1-page research poster — Phase I",
+          "date": "2027-02-21",
+          "source_url": "https://embc.embs.org/2027/important-dates/",
+          "verified_on": "2026-10-02"
+        },
+        {
+          "type": "poster",
+          "label": "1-page research poster — Phase II",
+          "opens_on": "2027-03-24",
+          "date": "2027-04-23",
+          "source_url": "https://embc.embs.org/2027/important-dates/",
+          "verified_on": "2026-10-02"
+        }
+      ]
+    },
+    {
+      "id": "ismrm-2027",
+      "name": "ISMRM",
+      "full_name": "ISMRM & ISMRT Annual Meeting & Exhibition",
+      "year": 2027,
+      "website": "https://www.ismrm.org/27m/",
+      "venue_type": "conference",
+      "areas": [
+        "neuroimaging"
+      ],
+      "event": {
+        "start": "2027-05-08",
+        "end": "2027-05-13",
+        "location": "Vancouver, BC, Canada"
+      },
+      "deadlines": [
+        {
+          "type": "abstract",
+          "label": "Abstract submission",
+          "opens_on": "2026-10-01",
+          "date": "2026-10-28",
+          "source_url": "https://www.ismrm.org/27m/",
+          "verified_on": "2026-10-02"
+        }
+      ]
+    },
+    {
+      "id": "spr-2027",
+      "name": "SPR",
+      "full_name": "Society for Psychophysiological Research Annual Meeting",
+      "year": 2027,
+      "website": "https://sprweb.org/futurepastmeetings/",
+      "venue_type": "conference",
+      "areas": [
+        "eeg_meg",
+        "cognitive"
+      ],
+      "event": {
+        "start": "2027-10-13",
+        "end": "2027-10-16",
+        "location": "Rotterdam, Netherlands"
+      },
+      "deadlines": [],
+      "tba_note": "SPR has announced the 2027 meeting dates and location; submission deadlines have not been posted yet.",
+      "verified_on": "2026-10-02"
+    },
+    {
+      "id": "ner-2027",
+      "name": "IEEE NER",
+      "full_name": "13th International IEEE/EMBS Conference on Neural Engineering",
+      "year": 2027,
+      "website": "https://www.embs.org/event/13th-international-conference-on-neural-engineering-ner/",
+      "venue_type": "conference",
+      "areas": [
+        "neurotech",
+        "bci",
+        "eeg_meg",
+        "computational"
+      ],
+      "event": {
+        "start": "2027-09-07",
+        "end": "2027-09-10",
+        "location": "Milan, Italy"
+      },
+      "deadlines": [],
+      "tba_note": "IEEE EMBS has announced the 2027 meeting dates and location; submission deadlines have not been posted yet.",
+      "verified_on": "2026-10-02"
+    }
+  ]
+}
