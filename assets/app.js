@@ -15,11 +15,13 @@ const AREA_LABELS = {
 const state = {
   data: null,
   activeAreas: new Set(),
+  query: "",
   showClosed: false,
   showTba: true
 };
 
 const els = {
+  search: document.querySelector("#search"),
   areaFilters: document.querySelector("#area-filters"),
   showClosed: document.querySelector("#show-closed"),
   showTba: document.querySelector("#show-tba"),
@@ -135,6 +137,24 @@ function conferenceMatches(conference) {
   if (!state.showClosed && status === "closed") return false;
   if (!state.showTba && status === "tba") return false;
   if (state.activeAreas.size && !conference.areas.some(area => state.activeAreas.has(area))) return false;
+
+  if (state.query) {
+    const haystack = [
+      conference.name,
+      conference.full_name,
+      conference.event.location,
+      conference.event.note || "",
+      ...conference.areas.map(area => AREA_LABELS[area] || area),
+      ...conference.deadlines.map(deadline => [
+        deadline.label,
+        deadline.type,
+        deadline.note || ""
+      ].join(" "))
+    ].join(" ").toLowerCase();
+
+    if (!haystack.includes(state.query)) return false;
+  }
+
   return true;
 }
 
@@ -255,6 +275,11 @@ async function init() {
 
   els.lastUpdate.textContent = formatDate(state.data.updated_on);
   setupAreaFilters(state.data.conferences);
+
+  els.search.addEventListener("input", event => {
+    state.query = event.target.value.trim().toLowerCase();
+    render();
+  });
 
   els.showClosed.addEventListener("change", event => {
     state.showClosed = event.target.checked;
