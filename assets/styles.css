@@ -1,6 +1,6 @@
 :root {
   color-scheme: light;
-  --text: #333;
+  --text: #000;
   --line: #eee;
   --link-line: #ccc;
 }
@@ -139,19 +139,24 @@ hr {
   width: min(360px, 100%);
   height: 28px;
   padding: 2px 7px;
-  border: 1px solid #ccc;
-  border-radius: 3px;
+  border: 1px solid #aaa;
+  border-radius: 2px;
   background: #fff;
-  color: inherit;
+  color: #000;
   font: inherit;
   font-size: 14px;
   line-height: 20px;
 }
 
+.search-input::placeholder {
+  color: #666;
+}
+
 .search-input:focus {
-  outline: 1px solid #999;
+  outline: 1px solid #666;
   outline-offset: 1px;
 }
+
 
 .list-meta {
   display: flex;

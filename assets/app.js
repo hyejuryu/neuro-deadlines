@@ -145,11 +145,9 @@ function conferenceMatches(conference) {
       conference.event.location,
       conference.event.note || "",
       ...conference.areas.map(area => AREA_LABELS[area] || area),
-      ...conference.deadlines.map(deadline => [
-        deadline.label,
-        deadline.type,
-        deadline.note || ""
-      ].join(" "))
+      ...conference.deadlines.map(deadline =>
+        `${deadline.label} ${deadline.type} ${deadline.note || ""}`
+      )
     ].join(" ").toLowerCase();
 
     if (!haystack.includes(state.query)) return false;
