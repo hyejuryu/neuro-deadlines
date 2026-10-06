@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate data/conferences.json using only the Python standard library."""
+"""Validate Neuro Deadlines data files using only the Python standard library."""
 
 from __future__ import annotations
 
@@ -11,7 +11,8 @@ from pathlib import Path
 from urllib.parse import urlparse
 
 ROOT = Path(__file__).resolve().parents[1]
-DATA_FILE = ROOT / "data" / "conferences.json"
+CONFERENCES_FILE = ROOT / "data" / "conferences.json"
+TRACKING_FILE = ROOT / "data" / "tracking_scope.json"
 
 ALLOWED_AREAS = {
     "general", "computational", "systems", "cognitive", "neuroimaging",
@@ -21,12 +22,21 @@ ALLOWED_VENUE_TYPES = {"conference", "workshop", "summer_school"}
 ALLOWED_DEADLINE_TYPES = {
     "abstract", "poster", "paper", "workshop", "travel_grant", "late_breaking",
 }
+ALLOWED_TIERS = {"core", "adjacent", "regional_opportunity"}
+ALLOWED_TRACKING_STATUSES = {"active", "watch"}
 ID_RE = re.compile(r"^[a-z0-9]+(?:-[a-z0-9]+)*$")
 
 
 def fail(message: str) -> None:
     print(f"ERROR: {message}", file=sys.stderr)
     raise SystemExit(1)
+
+
+def load_json(path: Path) -> dict:
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError) as exc:
+        fail(f"cannot read {path}: {exc}")
 
 
 def parse_date(value: str, context: str) -> date:
@@ -37,6 +47,8 @@ def parse_date(value: str, context: str) -> date:
 
 
 def validate_url(value: str, context: str) -> None:
+    if not isinstance(value, str):
+        fail(f"{context}: URL must be a string")
     parsed = urlparse(value)
     if parsed.scheme not in {"http", "https"} or not parsed.netloc:
         fail(f"{context}: invalid HTTP(S) URL {value!r}")
@@ -48,19 +60,16 @@ def require(obj: dict, key: str, context: str):
     return obj[key]
 
 
-def main() -> None:
-    try:
-        payload = json.loads(DATA_FILE.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        fail(f"cannot read {DATA_FILE}: {exc}")
+def validate_conferences() -> int:
+    payload = load_json(CONFERENCES_FILE)
 
     if payload.get("schema_version") != 1:
-        fail("schema_version must be 1")
-    parse_date(require(payload, "updated_on", "root"), "root.updated_on")
+        fail("conferences.schema_version must be 1")
+    parse_date(require(payload, "updated_on", "conferences root"), "conferences.updated_on")
 
-    conferences = require(payload, "conferences", "root")
+    conferences = require(payload, "conferences", "conferences root")
     if not isinstance(conferences, list):
-        fail("root.conferences must be a list")
+        fail("conferences root.conferences must be a list")
 
     seen_ids: set[str] = set()
     for index, conf in enumerate(conferences):
@@ -137,7 +146,71 @@ def main() -> None:
             validate_url(require(deadline, "source_url", dctx), f"{dctx}.source_url")
             parse_date(require(deadline, "verified_on", dctx), f"{dctx}.verified_on")
 
-    print(f"OK: {len(conferences)} conferences validated from {DATA_FILE.relative_to(ROOT)}")
+    return len(conferences)
+
+
+def validate_tracking_scope() -> int:
+    payload = load_json(TRACKING_FILE)
+
+    if payload.get("schema_version") != 1:
+        fail("tracking_scope.schema_version must be 1")
+
+    scope_version = require(payload, "scope_version", "tracking_scope root")
+    if not isinstance(scope_version, str) or not scope_version.strip():
+        fail("tracking_scope.scope_version must be a non-empty string")
+
+    parse_date(
+        require(payload, "reviewed_on", "tracking_scope root"),
+        "tracking_scope.reviewed_on",
+    )
+
+    series = require(payload, "series", "tracking_scope root")
+    if not isinstance(series, list) or not series:
+        fail("tracking_scope.series must be a non-empty list")
+
+    seen_ids: set[str] = set()
+    for index, item in enumerate(series):
+        ctx = f"tracking_scope.series[{index}]"
+        series_id = require(item, "id", ctx)
+        if not isinstance(series_id, str) or not ID_RE.fullmatch(series_id):
+            fail(f"{ctx}.id: use lowercase kebab-case")
+        if series_id in seen_ids:
+            fail(f"{ctx}.id: duplicate id {series_id!r}")
+        seen_ids.add(series_id)
+
+        name = require(item, "name", ctx)
+        if not isinstance(name, str) or not name.strip():
+            fail(f"{ctx}.name: must be a non-empty string")
+
+        tier = require(item, "tier", ctx)
+        if tier not in ALLOWED_TIERS:
+            fail(f"{ctx}.tier: unsupported value {tier!r}")
+
+        status = require(item, "status", ctx)
+        if status not in ALLOWED_TRACKING_STATUSES:
+            fail(f"{ctx}.status: unsupported value {status!r}")
+
+        validate_url(require(item, "official_url", ctx), f"{ctx}.official_url")
+
+        rationale = require(item, "rationale", ctx)
+        if not isinstance(rationale, str) or not rationale.strip():
+            fail(f"{ctx}.rationale: must be a non-empty string")
+
+        if "tracking_note" in item and (
+            not isinstance(item["tracking_note"], str) or not item["tracking_note"].strip()
+        ):
+            fail(f"{ctx}.tracking_note: must be a non-empty string when present")
+
+    return len(series)
+
+
+def main() -> None:
+    conference_count = validate_conferences()
+    tracking_count = validate_tracking_scope()
+    print(
+        f"OK: {conference_count} published conferences and "
+        f"{tracking_count} tracked series validated"
+    )
 
 
 if __name__ == "__main__":
