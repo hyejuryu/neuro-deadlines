@@ -1,0 +1,204 @@
+{
+  "schema_version": 1,
+  "scope_version": "v1",
+  "reviewed_on": "2026-10-06",
+  "description": "Baseline monitoring universe for recurring conference series relevant to computational neuroscience, human neuroimaging and functional connectivity, cognitive neuroscience, EEG/MEG, BCI and neural engineering, neurotechnology, neuroinformatics, and closely related methods communities.",
+  "publication_policy": [
+    "Tracking scope membership does not automatically create a published conference card.",
+    "Add an edition to data/conferences.json only when an official source confirms the edition and usable event metadata.",
+    "If deadlines are not yet announced, a published edition may use an empty deadlines list plus a tba_note.",
+    "Do not infer missing dates, times, time zones, or deadlines.",
+    "When official sources materially conflict, keep the series under tracking and defer publication of the disputed field until resolved."
+  ],
+  "series": [
+    {
+      "id": "cosyne",
+      "name": "COSYNE",
+      "tier": "core",
+      "status": "active",
+      "official_url": "https://www.cosyne.org/",
+      "rationale": "Premier recurring meeting directly centered on computational and systems neuroscience."
+    },
+    {
+      "id": "ocns-cns",
+      "name": "CNS* / OCNS Annual Meeting",
+      "tier": "core",
+      "status": "active",
+      "official_url": "https://www.cnsorg.org/",
+      "rationale": "Dedicated computational neuroscience society meeting spanning mathematical, simulation, and experimental work."
+    },
+    {
+      "id": "ccn",
+      "name": "Cognitive Computational Neuroscience (CCN)",
+      "tier": "core",
+      "status": "active",
+      "official_url": "https://2027.ccneuro.org/",
+      "rationale": "Direct intersection of computational modeling, cognitive science, neuroscience, and brain-behavior measurement."
+    },
+    {
+      "id": "ohbm",
+      "name": "OHBM Annual Meeting",
+      "tier": "core",
+      "status": "active",
+      "official_url": "https://humanbrainmapping.org/ohbm-2027/",
+      "rationale": "Primary human neuroimaging and brain-mapping community, highly relevant to fMRI and functional-connectivity research."
+    },
+    {
+      "id": "cognitive-neuroscience-society",
+      "name": "Cognitive Neuroscience Society Annual Meeting",
+      "tier": "core",
+      "status": "active",
+      "official_url": "https://www.cogneurosociety.org/annual-meeting/",
+      "rationale": "Major human cognitive neuroscience meeting spanning neuroimaging, EEG/MEG, computation, and behavior."
+    },
+    {
+      "id": "bci-meeting",
+      "name": "International BCI Meeting",
+      "tier": "core",
+      "status": "active",
+      "official_url": "https://bcisociety.org/bci-meeting/",
+      "rationale": "Specialist global meeting dedicated to brain-computer interface research, development, and translation."
+    },
+    {
+      "id": "ieee-ner",
+      "name": "IEEE EMBS Neural Engineering (NER)",
+      "tier": "core",
+      "status": "active",
+      "official_url": "https://www.embs.org/event/13th-international-conference-on-neural-engineering-ner/",
+      "rationale": "Core neural-engineering venue for neural interfaces, neurotechnology, biosignals, and BCI."
+    },
+    {
+      "id": "spr",
+      "name": "Society for Psychophysiological Research Annual Meeting",
+      "tier": "core",
+      "status": "active",
+      "official_url": "https://sprweb.org/",
+      "rationale": "Strong methodological home for EEG/ERP and psychophysiological measurement of cognition and behavior."
+    },
+    {
+      "id": "ismrm",
+      "name": "ISMRM & ISMRT Annual Meeting",
+      "tier": "core",
+      "status": "active",
+      "official_url": "https://www.ismrm.org/annual-meeting/",
+      "rationale": "Key MR methods community relevant to fMRI acquisition, image analysis, and human neuroimaging methodology."
+    },
+    {
+      "id": "sfn",
+      "name": "Society for Neuroscience Annual Meeting",
+      "tier": "core",
+      "status": "active",
+      "official_url": "https://www.sfn.org/meetings",
+      "rationale": "Broad flagship neuroscience meeting with substantial systems, cognitive, imaging, methods, and career-networking value."
+    },
+    {
+      "id": "embc",
+      "name": "IEEE EMBC",
+      "tier": "adjacent",
+      "status": "active",
+      "official_url": "https://embc.embs.org/2027/",
+      "rationale": "Broad biomedical engineering meeting with strong neural engineering, biomedical signal processing, BCI, and imaging tracks."
+    },
+    {
+      "id": "nice",
+      "name": "NICE Conference",
+      "tier": "adjacent",
+      "status": "active",
+      "official_url": "https://niceworkshop.org/",
+      "rationale": "Neuro-inspired and neuromorphic computing venue with explicit NeuroAI, biosignal-processing, and BCI coverage."
+    },
+    {
+      "id": "miccai",
+      "name": "MICCAI",
+      "tier": "adjacent",
+      "status": "active",
+      "official_url": "https://miccai.org/",
+      "rationale": "Leading medical-image-computing community; adjacent through neuroimaging analysis, machine learning, segmentation, and imaging methods."
+    },
+    {
+      "id": "incf-assembly",
+      "name": "INCF Neuroinformatics Assembly",
+      "tier": "adjacent",
+      "status": "watch",
+      "official_url": "https://incf.org/",
+      "rationale": "Relevant for neuroinformatics, FAIR neuroscience, reproducibility, standards, data infrastructure, and research software."
+    },
+    {
+      "id": "fens-forum",
+      "name": "FENS Forum",
+      "tier": "adjacent",
+      "status": "watch",
+      "official_url": "https://www.fens.org/meetings/fens-forum",
+      "rationale": "Major European neuroscience forum with broad scientific coverage and high networking value for European graduate research."
+    },
+    {
+      "id": "biomag",
+      "name": "BIOMAG",
+      "tier": "adjacent",
+      "status": "watch",
+      "official_url": "https://biomag2026.scimeeting.cn/",
+      "rationale": "Specialist biomagnetism meeting directly relevant to MEG, magnetic sensing, and related analysis methods.",
+      "tracking_note": "Watch the official series for the next edition after BIOMAG 2026."
+    },
+    {
+      "id": "neuromatch-conference",
+      "name": "Neuromatch Conference",
+      "tier": "adjacent",
+      "status": "watch",
+      "official_url": "https://neuromatch.io/our-story/",
+      "rationale": "Historically important accessible computational-neuroscience conference series; retain as watch-only until a new edition is announced.",
+      "tracking_note": "Official Neuromatch history documents conferences through 2022; no current future edition is assumed."
+    },
+    {
+      "id": "neurips",
+      "name": "NeurIPS",
+      "tier": "adjacent",
+      "status": "watch",
+      "official_url": "https://neurips.cc/",
+      "rationale": "Important methods and NeuroAI-adjacent venue, but neuroscience is not its primary scope; track selectively rather than as a default publication target."
+    },
+    {
+      "id": "kscn",
+      "name": "Korean Society for Computational Neuroscience Annual Meeting",
+      "tier": "regional_opportunity",
+      "status": "watch",
+      "official_url": "https://www.cbrain.org/",
+      "rationale": "Direct domestic computational-neuroscience community and a practical regional presentation and networking opportunity.",
+      "tracking_note": "Watch for the next annual-meeting edition after the 2026 meeting."
+    },
+    {
+      "id": "ksbns",
+      "name": "KSBNS / K-Brain Annual Meeting",
+      "tier": "regional_opportunity",
+      "status": "watch",
+      "official_url": "https://www.ksbns.org/",
+      "rationale": "Major Korean neuroscience meeting with systems/cognitive, computational neuroscience, neuro-tools, and neuroengineering coverage."
+    },
+    {
+      "id": "ap-ccn",
+      "name": "Asia-Pacific Computational and Cognitive Neuroscience Conference (AP-CCN)",
+      "tier": "regional_opportunity",
+      "status": "watch",
+      "official_url": "https://neuroimaginglab.org/apccn.html",
+      "rationale": "Regionally focused forum explicitly intended to promote computational and cognitive neuroscience and theory-experiment interaction.",
+      "tracking_note": "Watch for a future edition after AP-CCN 2026."
+    },
+    {
+      "id": "cjk-neuroscience",
+      "name": "China-Japan-Korea Neuroscience Meeting",
+      "tier": "regional_opportunity",
+      "status": "active",
+      "official_url": "https://www.neuroscience2027.jnss.org/en/greeting.html",
+      "rationale": "Recurring East Asian neuroscience meeting with a confirmed 2027 edition and strong regional networking value."
+    },
+    {
+      "id": "icon",
+      "name": "International Conference on Cognitive Neuroscience (ICON)",
+      "tier": "regional_opportunity",
+      "status": "watch",
+      "official_url": "https://cipsi.uminho.pt/en/icon2025",
+      "rationale": "Long-running cognitive-neuroscience meeting spanning neuroimaging, neurostimulation, EEG/MEG-adjacent methods, and cognition.",
+      "tracking_note": "Latest verified official edition source is ICON 2025; watch for the next edition rather than inferring recurrence dates."
+    }
+  ]
+}

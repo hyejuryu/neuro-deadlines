@@ -2,15 +2,16 @@
 
 A small, curated deadline tracker for conferences relevant to computational neuroscience, systems neuroscience, cognitive neuroscience, human neuroimaging, EEG/MEG, BCI, neurotechnology, and NeuroAI.
 
-The project intentionally uses **no frontend framework and no build step**. The site is plain HTML/CSS/JavaScript, and conference records live in one JSON file.
+The project intentionally uses **no frontend framework and no build step**. The site is plain HTML/CSS/JavaScript. Published conference editions live in `data/conferences.json`, while the recurring series monitored for future updates live in `data/tracking_scope.json`.
 
 ## Design principles
 
 1. **Official sources are authoritative.** Aggregators can help discover events, but every deadline record must link to an official conference or society page.
 2. **Do not invent precision.** If the source publishes only a date, store only a date. Add `datetime` only when the source publishes an exact time and timezone/offset.
-3. **Data and presentation stay separate.** Routine maintenance should usually require editing only `data/conferences.json`.
-4. **Small taxonomy.** Add an area tag only when it helps users filter materially different research communities.
-5. **Validation before publication.** `scripts/validate_data.py` checks the dataset with Python's standard library, and GitHub Actions runs it on pushes and pull requests.
+3. **Tracking and publication are separate.** `data/tracking_scope.json` defines the recurring series to monitor. `data/conferences.json` contains only specific editions supported by official event information.
+4. **Data and presentation stay separate.** Routine maintenance should usually require editing data files rather than frontend code.
+5. **Small taxonomy.** Add an area tag only when it helps users filter materially different research communities.
+6. **Validation before publication.** `scripts/validate_data.py` checks both data files with Python's standard library, and GitHub Actions runs it on pushes and pull requests.
 
 ## Repository structure
 
@@ -21,7 +22,8 @@ The project intentionally uses **no frontend framework and no build step**. The 
 │   ├── app.js
 │   └── styles.css
 ├── data/
-│   └── conferences.json
+│   ├── conferences.json
+│   └── tracking_scope.json
 ├── scripts/
 │   └── validate_data.py
 ├── .nojekyll
@@ -29,6 +31,25 @@ The project intentionally uses **no frontend framework and no build step**. The 
 ├── LICENSE
 └── README.md
 ```
+
+## Tracking Scope v1
+
+`data/tracking_scope.json` is the baseline monitoring universe for recurring conference series. It is intentionally broader than the set of conference cards currently published on the site.
+
+The scope is grouped into:
+
+- `core`: directly relevant recurring communities in computational neuroscience, human neuroimaging, cognitive neuroscience, EEG/MEG, BCI/neural engineering, and closely related methods.
+- `adjacent`: useful neighboring communities such as biomedical engineering, medical image computing, neuroinformatics, broad European neuroscience, biomagnetism, and selected NeuroAI/methods venues.
+- `regional_opportunity`: regional meetings with practical scientific, presentation, or networking value.
+
+Tracking status has two values:
+
+- `active`: an edition or current cycle is sufficiently concrete to monitor now.
+- `watch`: retain the series in scope, but wait for a future edition or stronger current-cycle information before treating it as an active deadline source.
+
+Scope membership does **not** automatically create a conference card. A specific edition belongs in `data/conferences.json` only when an official conference or society source confirms usable event information. If an edition is confirmed but deadlines are not yet announced, it may be published with an empty `deadlines` list and a `tba_note`.
+
+The scope should be reconsidered conservatively. Additions or removals should be evidence-based; weakly related events should not be added merely to increase coverage.
 
 ## Add or update a conference
 
@@ -76,6 +97,12 @@ If deadlines are not yet announced, keep `deadlines` empty and record the verifi
 "verified_on": "2026-10-02"
 ```
 
+## Maintain the tracking scope
+
+Edit `data/tracking_scope.json` only when the monitored series, tier, status, official source, or rationale materially changes.
+
+Do not move a series from `watch` to `active` merely because recurrence is expected. Use an official source showing a current or future edition, CFP cycle, or equivalent concrete activity.
+
 ## Validate locally
 
 ```bash
@@ -105,7 +132,7 @@ The site will be available at `https://<username>.github.io/neuro-deadlines/` un
 
 ## Current v0.1 scope
 
-The initial dataset is deliberately small. It seeds conferences that are directly relevant to the target communities and whose 2027 information could be verified from official sources as of 2026-10-02. Coverage should expand conservatively rather than by copying unverified aggregator entries.
+The published dataset remains deliberately small and evidence-driven. Tracking Scope v1 is broader, but conference cards should expand only when a specific edition can be verified from official sources.
 
 ## License
 

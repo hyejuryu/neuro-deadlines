@@ -1,6 +1,6 @@
 {
   "schema_version": 1,
-  "updated_on": "2026-10-02",
+  "updated_on": "2026-10-06",
   "conferences": [
     {
       "id": "cosyne-2027",
@@ -189,6 +189,13 @@
           "verified_on": "2026-10-02"
         },
         {
+          "type": "workshop",
+          "label": "Tutorial suggestion",
+          "date": "2026-12-02",
+          "source_url": "https://niceworkshop.org/nice-2027/",
+          "verified_on": "2026-10-06"
+        },
+        {
           "type": "late_breaking",
           "label": "Late-breaking news submission",
           "date": "2027-02-01",
@@ -282,31 +289,26 @@
         {
           "type": "workshop",
           "label": "Workshop / mini-symposium proposal",
-          "date": "2027-01-17",
-          "source_url": "https://embc.embs.org/2027/important-dates/",
-          "verified_on": "2026-10-02"
+          "date": "2027-01-24",
+          "datetime": "2027-01-24T23:59:00-12:00",
+          "source_url": "https://embc.embs.org/2027/papers/",
+          "verified_on": "2026-10-06"
         },
         {
           "type": "paper",
           "label": "Full contributed paper",
-          "date": "2027-01-17",
-          "source_url": "https://embc.embs.org/2027/important-dates/",
-          "verified_on": "2026-10-02"
+          "date": "2027-01-24",
+          "datetime": "2027-01-24T23:59:00-12:00",
+          "source_url": "https://embc.embs.org/2027/papers/",
+          "verified_on": "2026-10-06"
         },
         {
           "type": "poster",
-          "label": "1-page research poster — Phase I",
-          "date": "2027-02-21",
-          "source_url": "https://embc.embs.org/2027/important-dates/",
-          "verified_on": "2026-10-02"
-        },
-        {
-          "type": "poster",
-          "label": "1-page research poster — Phase II",
-          "opens_on": "2027-03-24",
+          "label": "1-page research poster",
           "date": "2027-04-23",
-          "source_url": "https://embc.embs.org/2027/important-dates/",
-          "verified_on": "2026-10-02"
+          "datetime": "2027-04-23T23:59:00-12:00",
+          "source_url": "https://embc.embs.org/2027/papers/",
+          "verified_on": "2026-10-06"
         }
       ]
     },
@@ -333,6 +335,14 @@
           "date": "2026-10-28",
           "source_url": "https://www.ismrm.org/27m/",
           "verified_on": "2026-10-02"
+        },
+        {
+          "type": "travel_grant",
+          "label": "Trainee stipend application",
+          "date": "2026-10-28",
+          "datetime": "2026-10-28T23:59:00+00:00",
+          "source_url": "https://www.ismrm.org/27m/stipends/",
+          "verified_on": "2026-10-06"
         }
       ]
     },
