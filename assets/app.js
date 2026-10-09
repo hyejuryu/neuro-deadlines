@@ -69,7 +69,13 @@ function formatEventRange(event) {
 
 function deadlineStatus(deadline) {
   const today = localDateString();
-  if (deadline.date < today) return "closed";
+
+  if (deadline.datetime) {
+    if (new Date(deadline.datetime).getTime() <= Date.now()) return "closed";
+  } else if (deadline.date < today) {
+    return "closed";
+  }
+
   if (deadline.opens_on && deadline.opens_on > today) return "upcoming";
   return "open";
 }
@@ -103,13 +109,17 @@ function exactCountdown(isoDatetime) {
   return `${days}d ${hours}h ${minutes}m ${seconds}s`;
 }
 
-function nextDeadlineDate(conference) {
-  const today = localDateString();
+function nextDeadlineTime(conference) {
   const future = conference.deadlines
-    .filter(d => d.date >= today)
-    .map(d => d.date)
-    .sort();
-  return future[0] || "9999-12-31";
+    .filter(deadline => deadlineStatus(deadline) !== "closed")
+    .map(deadline =>
+      deadline.datetime
+        ? new Date(deadline.datetime).getTime()
+        : parseDateOnly(deadline.date).getTime()
+    )
+    .sort((a, b) => a - b);
+
+  return future[0] ?? Number.POSITIVE_INFINITY;
 }
 
 function setupAreaFilters(conferences) {
@@ -243,7 +253,7 @@ function render() {
       const rank = { open: 0, upcoming: 1, tba: 2, closed: 3 };
       const statusDiff = rank[conferenceStatus(a)] - rank[conferenceStatus(b)];
       if (statusDiff) return statusDiff;
-      const deadlineDiff = nextDeadlineDate(a).localeCompare(nextDeadlineDate(b));
+      const deadlineDiff = nextDeadlineTime(a) - nextDeadlineTime(b);
       if (deadlineDiff) return deadlineDiff;
       return a.event.start.localeCompare(b.event.start);
     });
@@ -254,9 +264,19 @@ function render() {
 }
 
 function refreshExactCountdowns() {
+  let statusChanged = false;
+
   document.querySelectorAll("[data-datetime]").forEach(node => {
-    node.textContent = exactCountdown(node.dataset.datetime);
+    const previous = node.textContent;
+    const next = exactCountdown(node.dataset.datetime);
+    node.textContent = next;
+
+    if (previous !== "Past deadline" && next === "Past deadline") {
+      statusChanged = true;
+    }
   });
+
+  if (statusChanged) render();
 }
 
 async function init() {
